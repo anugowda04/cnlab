@@ -1,0 +1,51 @@
+import java.util.*;
+import java.net.*;
+import java.io.*;
+
+public class UDPServer{
+	public static void main(String  [] args) throws Exception{
+		DatagramSocket datasoc = new DatagramSocket();		
+		DatagramPacket datapack;
+		InetAddress addr = InetAddress.getByName("127.0.0.1");
+		Scanner sc =  new Scanner(System.in);
+		System.out.println("Enter the message to send :");
+		while(true){
+			String input = sc.nextLine();
+			datapack = new DatagramPacket(input.getBytes(),input.getBytes().length,addr,2711);
+			
+			datasoc.send(datapack);
+			if(input.equalsIgnoreCase("exit"))
+                                break;
+
+		}
+		
+}
+}
+===================================
+
+//client
+  import java.util.*;
+import java.net.*;
+import java.io.*;
+
+public class UDPClient{
+        public static void main(String  [] args) throws Exception{
+                DatagramSocket datasoc = new DatagramSocket(2711);
+                DatagramPacket datapack;
+		byte [] buffer ;
+                Scanner sc =  new Scanner(System.in);
+                System.out.println("Received Message : ");
+                while(true){
+			buffer = new byte[65555];
+			datapack = new DatagramPacket(buffer,buffer.length);
+			datasoc.receive(datapack);
+                        if(new String(buffer).equalsIgnoreCase("exit"))
+                                break;
+                        System.out.println(new String(buffer));
+
+                }
+
+	}
+}
+
+  
