@@ -1,0 +1,48 @@
+import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+public class LeakyBucket {
+	public static void main(String args[]){
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the Number of Packets :");
+		int n = sc.nextInt();
+		System.out.print("Enter the Size of Bucket :");
+		int bsize = sc.nextInt();
+		System.out.print("Enter the Output Rate :");
+		int outrate = sc.nextInt();
+		System.out.print("Enter the Size of Packets in Order :");
+		int packets[] = new int[n];
+		for(int i=0;i<n;i++){
+			packets[i]=sc.nextInt();
+		}
+		int remains=0;
+		for(int i=0;i<n;i++){
+			if(packets[i]<=bsize){
+				if(packets[i]+remains<=outrate)
+				{
+					remains=0;
+					System.out.println("Packet of Size " +(packets[i]+remains)+" Transmitted");
+				}
+				else{
+					remains = packets[i]-outrate;
+					System.out.println("Packet of Size " +(packets[i]-remains)+" Transmitted ");
+				}
+			}
+			else{
+				System.out.println("Packet of Size " +packets[i]+" Dropped");
+				if(remains!=0)
+				{
+					if(remains<=outrate){
+						System.out.println("Packet of Size " +remains+" Transmitted ");	
+						remains=0;
+					}
+					else{
+						System.out.println("Packet of Size " +outrate+" Transmitted ");	
+						remains-=outrate;
+					}
+				
+				}	
+			}
+		}
+	}
+}
