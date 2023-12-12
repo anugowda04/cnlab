@@ -1,0 +1,51 @@
+import java.io.DataInputStream;
+import java.math.BigInteger;
+import java.util.Random;
+import java.util.Scanner;
+public class RSA{
+	BigInteger p;
+	BigInteger q;
+	BigInteger N;
+	BigInteger phi;
+	BigInteger e;
+	BigInteger d;
+	private Random random = new Random();
+	int bitLength = 1024;
+	RSA(){
+		p = BigInteger.probablePrime(bitLength,random);
+		q = BigInteger.probablePrime(bitLength,random);
+		N = p.multiply(q);
+		phi = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
+		e = BigInteger.probablePrime(bitLength/2,random);
+		while(phi.gcd(e).compareTo(BigInteger.ONE)>0&&e.compareTo(phi)<0){
+			e.add(BigInteger.ONE);
+		}
+		d = e.modInverse(phi);
+	}
+	RSA(BigInteger e, BigInteger d, BigInteger N){
+		this.e=e;
+		this.d=d;
+		this.N=N;
+	}
+		
+	public static void main(String args[]){
+		RSA rsa = new RSA();
+		Scanner sc = new Scanner(System.in);
+		//DataInputStream in = new DataInputStream(System.in);
+		System.out.print("Enter Plain Text : ");
+		String teststring = sc.next().trim();
+		//Encrypt
+		byte encrypted [] = rsa.encrypt(teststring.getBytes());
+		//Decrypt 
+		byte decrypted [] = rsa.decrypt(encrypted);
+		System.out.println("Cipher-Text : "+(encrypted));
+		System.out.println("Decrypted-Text : "+new String(decrypted));
+	}
+	byte [] encrypt(byte [] message){
+		return (new BigInteger(message)).modPow(e,N).toByteArray();
+	}
+	byte [] decrypt(byte [] message){
+		return (new BigInteger(message)).modPow(d,N).toByteArray();
+	}	
+
+}
