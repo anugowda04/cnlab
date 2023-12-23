@@ -1,43 +1,48 @@
+//frame sorting
+
 import java.util.Scanner;
-class Frame{
-	int frameno;
+
+class Frame {
+	int num;
 	String data;
+
+	Frame(int n, String d) {
+		num = n;
+		data = d;
+	}
 }
-public class framesort{
-	public static void main(String [] args){
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter the number of Frames : ");
-		int n = sc.nextInt();
-		System.out.println("Enter the Frame Details");
-		Frame frames[] = new Frame[n];
-		for(int i=0;i<n;i++){
-			frames[i]=new Frame();
-			System.out.print("Enter Frame Number : ");
-			frames[i].frameno = sc.nextInt();
-			System.out.print("Enter Frame Data : ");
-			frames[i].data = new String();
-			frames[i].data = sc.next();
-		}
-		sortframe(frames,n);
-		System.out.println("Sorted Frames");
-		for (Frame f : frames){
-			System.out.println(f.frameno+" | "+f.data);
+
+public class CN2 {
+	static void sort(Frame[] f) {
+		for (int i = 0; i < f.length; i++) {
+			boolean flag = false;
+			for (int j = 0; j < f.length - 1; j++)
+				if (f[j].num > f[j + 1].num) {
+					Frame temp = f[j];
+					f[j] = f[j + 1];
+					f[j + 1] = temp;
+					flag = true;
+				}
+			if (!flag) {
+				break;
+			}
 		}
 	}
-	static void sortframe(Frame frames[], int n){
-		Frame temp = new Frame();
-		int exec=0;
-		for(int i=0;i<n-1;i++){
-			for(int j=0;j<n-i-1;j++){
-				if(frames[j].frameno>frames[j+1].frameno){
-					exec=1;
-					temp = frames[j];
-					frames[j]=frames[j+1];
-					frames[j+1]=temp;
-				}
-			}
-			if(exec==0)
-				break;
+
+	public static void main(String[] args) {
+		System.out.print("Enter the number of frames : ");
+		Scanner in = new Scanner(System.in);
+		int n = in.nextInt();
+		Frame[] f = new Frame[n];
+		for (int i = 0; i < n; i++) {
+			System.out.print("Enter the frame number and data : ");
+			int num = in.nextInt();
+			String data = in.next();
+			f[i] = new Frame(num, data);
 		}
+		sort(f);
+		System.out.println("The sorted frames are : ");
+		for (int i = 0; i < n; i++)
+			System.out.println(f[i].data);
 	}
 }
