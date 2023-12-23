@@ -27,7 +27,7 @@ class RSA {
 
 }
 
-class CN7 {
+class rsa {
     public static void main(String[] args) {
         RSA rsa = new RSA();
         rsa.getKeys(1024);
