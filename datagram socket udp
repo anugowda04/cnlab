@@ -7,7 +7,7 @@ public class UDPServer{
 		DatagramSocket datasoc = new DatagramSocket();		
 		DatagramPacket datapack;
 		InetAddress addr = InetAddress.getByName("127.0.0.1");
-		Scanner sc =  new Scanner(System.in);
+		Scanner sc =  new Scanner(System.in); 
 		System.out.println("Enter the message to send :");
 		while(true){
 			String input = sc.nextLine();
