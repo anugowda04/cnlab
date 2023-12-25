@@ -1,51 +1,52 @@
-import java.util.*;
+/////client
 import java.net.*;
-import java.io.*;
 
-public class UDPServer{
-	public static void main(String  [] args) throws Exception{
-		DatagramSocket datasoc = new DatagramSocket();		
-		DatagramPacket datapack;
-		InetAddress addr = InetAddress.getByName("127.0.0.1");
-		Scanner sc =  new Scanner(System.in); 
-		System.out.println("Enter the message to send :");
-		while(true){
-			String input = sc.nextLine();
-			datapack = new DatagramPacket(input.getBytes(),input.getBytes().length,addr,2711);
-			
-			datasoc.send(datapack);
-			if(input.equalsIgnoreCase("exit"))
-                                break;
-
-		}
-		
+class client {
+    public static void main(String args[]) throws Exception {
+        DatagramSocket dgSocket = new DatagramSocket(4000);
+        byte[] buffer;
+        DatagramPacket dgPacket;
+        System.out.println("Received Messages: ");
+        while (true) {
+            buffer = new byte[65555];
+            dgPacket = new DatagramPacket(buffer, buffer.length);
+            dgSocket.receive(dgPacket);
+            String received = new String(buffer).trim();
+            System.out.println(received);
+            if (received.equalsIgnoreCase("exit")) {
+                dgSocket.close();
+                break;
+            }
+        }
+    }
 }
-}
-===================================
 
-//client
-  import java.util.*;
+**********************************************************************************************************
+//////sever
 import java.net.*;
-import java.io.*;
+import java.util.Scanner;
 
-public class UDPClient{
-        public static void main(String  [] args) throws Exception{
-                DatagramSocket datasoc = new DatagramSocket(2711);
-                DatagramPacket datapack;
-		byte [] buffer ;
-                Scanner sc =  new Scanner(System.in);
-                System.out.println("Received Message : ");
-                while(true){
-			buffer = new byte[65555];
-			datapack = new DatagramPacket(buffer,buffer.length);
-			datasoc.receive(datapack);
-                        if(new String(buffer).equalsIgnoreCase("exit"))
-                                break;
-                        System.out.println(new String(buffer));
+class server {
+    public static void main(String args[]) throws Exception {
+        Scanner in = new Scanner(System.in);
+        DatagramSocket dgSocket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("127.0.0.1");
+        String message;
+        byte[] buffer;
+        DatagramPacket dgPacket;
+        System.out.println("Enter messages to send: ");
+        while (true) {
+            message = in.nextLine();
+            buffer = message.getBytes();
+            dgPacket = new DatagramPacket(buffer, buffer.length, address, 4000);
+            dgSocket.send(dgPacket);
 
-                }
+            if (message.equalsIgnoreCase("exit")) {
+                dgSocket.close();
+                break;
+            }
 
-	}
+        }
+    }
+
 }
-
-  
