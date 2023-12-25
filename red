@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class CN9 {
+public class red {
     public static void main(String args[]) {
         int maxPac = 20;
         int queSize = 10;
