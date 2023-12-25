@@ -1,31 +1,30 @@
-import java.util.*;
+import java.util.Random;
 
-public class RED{
-	public static void main(String [] args){
-		Scanner sc = new Scanner(System.in);
-		Random random = new Random();
-		System.out.print("Enter the number of Packets :");
-		int numPackets = sc.nextInt();
-		System.out.print("Enter the Queue Size : ");
-		int queSize = sc.nextInt();
-		float minProb = 0.1F;
-		float maxProb = 0.7F;
-		float dropProb=minProb;
-		int queLen=0;
-		for(int i=1;i<=numPackets;i++){
-			if(queLen>=queSize){
-				System.out.println("Packet-"+i+" dropped (Queue Full)");
-				dropProb = minProb;
-			}
-			else if(random.nextFloat()<dropProb){
-				dropProb += (maxProb - minProb)/(numPackets-1);
-				System.out.println("Packet-"+i+" dropped (Random)");
-			}
-			else{
-				System.out.println("Packet-"+i+" inserted into Queue");
-				dropProb = minProb;
-				queLen++;
-			}
-		}
-	}
+public class CN9 {
+    public static void main(String args[]) {
+        int maxPac = 20;
+        int queSize = 10;
+
+        double maxPro = 0.7;
+        double minPro = 0.3;
+
+        int queLen = 0;
+        double dropPro = minPro;
+        Random rand = new Random();
+        for (int i = 0; i < maxPac; ++i) {
+            if (queLen == queSize) {
+                System.out.println("Packet dropped ( Queue Full ) ");
+                dropPro = minPro;
+            } else if (Math.random() < dropPro) {
+                System.out.println("Packet dropped ( Random ) ");
+                dropPro += (maxPro - minPro) / (maxPac - 1);
+            } else {
+                System.out.println("Packet Accepted");
+                queLen++;
+                dropPro = minPro;
+            }
+        }
+
+    }
+
 }
